@@ -82,7 +82,7 @@ class CustomBarLit extends LitElement {
     const barRect = this.shadowRoot.querySelector('.horizontal-bar').getBoundingClientRect();
 
     floatingElement.style.left = `${rect.left - barRect.left}px`;
-    floatingElement.textContent = button.textContent;
+    floatingElement.innerHTML = `<cas-text variant="body2">${button.textContent}</cas-text>`;
     this._selectedOptionIndex = index;
     this._emitEvent(index);
   }
@@ -153,7 +153,7 @@ class CustomBarLit extends LitElement {
     const rect = button.getBoundingClientRect();
     const barRect = this.shadowRoot.querySelector('.horizontal-bar').getBoundingClientRect();
     floatingElement.style.left = `${rect.left - barRect.left}px`;
-    floatingElement.textContent = button.textContent;
+    floatingElement.innerHTML = `<cas-text variant="body2">${button.textContent}</cas-text>`;
   }
   render() {
     return html`
