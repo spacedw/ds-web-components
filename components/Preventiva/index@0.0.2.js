@@ -1,5 +1,28 @@
 import {css, html, LitElement} from "https://unpkg.com/lit?module";
 import { classMap } from "https://cdn.jsdelivr.net/npm/lit-html@2.6.1/directives/class-map.js";
+const data = [
+  {
+    name: "La importancia de cuidarse",
+    text: "Descubre por qué debes prestar atención a tu salud. ",
+    id: 1,
+    url: "https://www.clinicaalemana.cl/prevencion-y-bienestar/importancia-de-cuidarse",
+    position: "start",
+  },
+  {
+    name: "Aprende cómo cuidarte",
+    text: "Consejos e información para prevenir enfermedades y vivir una vida plena.",
+    id: 2,
+    url: "https://www.clinicaalemana.cl/prevencion-y-bienestar/aprender-como-cuidarte",
+  },
+  {
+    name: "Acciones para cuidarte",
+    text: "Conoce las medidas recomendables, según tu edad y sexo.",
+    id: 3,
+    url: "https://www.clinicaalemana.cl/prevencion-y-bienestar/acciones-para-cuidarte",
+    position: "end",
+  }
+]
+
 const stylesPreventiva = css`
   :host {
     display: block;
@@ -22,9 +45,61 @@ const stylesPreventiva = css`
     align-items: center;
     text-align: center;
   }
+  .title {
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 36px;
+    letter-spacing: 0.0120588em;
+    margin: 0;
+  }
   .content {
     position: relative;
     display: flex;
+  }
+  .move {
+    position: absolute;
+    background-color: #4DBFB8;;
+    width: var(--width-card);
+    height: 264px;
+    border-radius: 150px;
+    transition: all 0.5s ease;
+  }
+  .navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    z-index: 100;
+  }
+
+  .navigation button {
+    background-color: rgba(255, 255, 255, 0.8);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: #4D5D68;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .navigation button:hover {
+    background-color: rgba(255, 255, 255, 1);
+  }
+
+  .navigation button.disabled {
+    opacity: 0.5;
+    pointer-events: none;
   }
   @media (max-width: 1024px) {
     .inner-wrapped {
@@ -35,6 +110,14 @@ const stylesPreventiva = css`
       align-items: initial;
       text-align: initial;
       gap: 4px;
+    }
+    .title {
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 28px;
+    }
+    .move {
+      display: none;
     }
   }
   @media (max-width: 768px) {
@@ -60,24 +143,67 @@ class CasPreventiva extends LitElement {
     };
   }
 
+  navigate(direction) {
+    const newIndex = this.current + direction;
+    if (newIndex >= 1 && newIndex <= data.length) {
+      this.current = newIndex;
+      this.requestUpdate();
+    }
+  }
+
+  handleSelect(id) {
+    const move = this.shadowRoot.querySelector('.move')
+    const width = move.offsetWidth
+    move.style.transform = `translateX(${(id - 1) * width}px)`
+    this.current = id
+    this.requestUpdate()
+    setTimeout(() => {
+      window.location.href = data[id - 1].url
+    }, 500)
+  }
 
   render() {
+    const render_navigation = html`
+      <div class="navigation">
+        <button
+            class="${classMap({ disabled: this.current === 1 })}"
+            @click="${() => this.navigate(-1)}"
+        >
+          ‹
+        </button>
+        <button
+            class="${classMap({ disabled: this.current === data.length })}"
+            @click="${() => this.navigate(1)}"
+        >
+          ›
+        </button>
+      </div>
+    `;
+
     const render_cards = html`
       <div class="content">
         ${data.map(item => {
       const {name, text, url, position, id} = item
-      return html`<cas-preventiva-card name="${name}" text="${text}" url="${url}" graph="${id}" position="${position}" .selected=${this.current === id}></cas-preventiva-card>`
+      return html`<cas-preventiva-card @click="${() => this.handleSelect(id)}" name="${name}" text="${text}" url="${url}" graph="${id}" position="${position}" .selected=${this.current === id}></cas-preventiva-card>`
     })}
+        <div class="move"></div>
       </div>
     `
     return html`
+      <style>
+        section {
+          --width-card: ${100 / data.length}%;
+        }
+      </style>
       <section>
         <div class="inner-wrapped">
           <div class="top">
+            <p class="title">Para mejorar tu calidad de vida</p>
             <cas-text variant="display1" mobileVariant="m-display1">${this.name}</cas-text>
             <cas-text variant="headline5" mobileVariant="m-body1">${this.text}</cas-text>
           </div>
           ${render_cards}
+          ${render_navigation}
         </div>
       </section>
     `;
@@ -95,6 +221,7 @@ const stylesPreventivaCard = css`
     flex-direction: column;
     gap: 24px;
     color: #4D5D68;
+    transition: all 0.5s ease;
   }
   .graph {
     background-color: #F2F5F9;
@@ -109,15 +236,6 @@ const stylesPreventivaCard = css`
   }
   :host([position="end"]) .graph {
     border-radius: 0 150px 150px 0;
-  }
-  article.active .graph::before {
-    position: absolute;
-    display: block;
-    content: "";
-    width: 100%;
-    height: 264px;
-    background-color: #4DBFB8;
-    border-radius: 150px;
   }
   .graph svg {
     z-index: 1;
@@ -193,7 +311,7 @@ class CasPreventivaCard extends LitElement {
       active: this.selected,
     });
     const handleClick = () => {
-      window.location.href = this.url
+      // window.location.href = this.url
     }
     return html`
       <article class="${classWrapper}" data-position="${this.position}">
@@ -545,28 +663,6 @@ const graph3 = html`
     </defs>
   </svg>
 `
-const data = [
-  {
-    name: "La importancia de cuidarse",
-    text: "Descubre por qué debes prestar atención a tu salud. ",
-    id: 1,
-    url: "https://www.google.com",
-    position: "start",
-  },
-  {
-    name: "Aprende a como cuidarte",
-    text: "Consejos e información para prevenir enfermedades y vivir una vida plena.",
-    id: 2,
-    url: "https://www.google.com",
-  },
-  {
-    name: "Acciones para cuidarte",
-    text: "Conoce las medidas recomendables, según tu edad y sexo.",
-    id: 3,
-    url: "https://www.google.com",
-    position: "end",
-  }
-]
 
 const listGraphs = {
   "1": graph1,
