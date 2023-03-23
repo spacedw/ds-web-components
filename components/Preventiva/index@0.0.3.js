@@ -66,41 +66,6 @@ const stylesPreventiva = css`
     border-radius: 150px;
     transition: all 0.5s ease;
   }
-  .navigation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    position: absolute;
-    top: 50%;
-    left: 0;
-    right: 0;
-    transform: translateY(-50%);
-    z-index: 100;
-  }
-
-  .navigation button {
-    background-color: rgba(255, 255, 255, 0.8);
-    border: none;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 24px;
-    color: #4D5D68;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-  }
-
-  .navigation button:hover {
-    background-color: rgba(255, 255, 255, 1);
-  }
-
-  .navigation button.disabled {
-    opacity: 0.5;
-    pointer-events: none;
-  }
   @media (max-width: 1024px) {
     .inner-wrapped {
       align-items: initial;
@@ -143,14 +108,6 @@ class CasPreventiva extends LitElement {
     };
   }
 
-  navigate(direction) {
-    const newIndex = this.current + direction;
-    if (newIndex >= 1 && newIndex <= data.length) {
-      this.current = newIndex;
-      this.requestUpdate();
-    }
-  }
-
   handleSelect(id) {
     const move = this.shadowRoot.querySelector('.move')
     const width = move.offsetWidth
@@ -163,23 +120,6 @@ class CasPreventiva extends LitElement {
   }
 
   render() {
-    const render_navigation = html`
-      <div class="navigation">
-        <button
-            class="${classMap({ disabled: this.current === 1 })}"
-            @click="${() => this.navigate(-1)}"
-        >
-          ‹
-        </button>
-        <button
-            class="${classMap({ disabled: this.current === data.length })}"
-            @click="${() => this.navigate(1)}"
-        >
-          ›
-        </button>
-      </div>
-    `;
-
     const render_cards = html`
       <div class="content">
         ${data.map(item => {
@@ -203,7 +143,6 @@ class CasPreventiva extends LitElement {
             <cas-text variant="headline5" mobileVariant="m-body1">${this.text}</cas-text>
           </div>
           ${render_cards}
-          ${render_navigation}
         </div>
       </section>
     `;
