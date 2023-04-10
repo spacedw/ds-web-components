@@ -1,4 +1,4 @@
-import { css, html, LitElement } from 'https://unpkg.com/lit@2.7.1/index@0.0.1.js?module';
+import { css, html, LitElement } from 'https://unpkg.com/lit@2.7.1/index@0.0.2.js?module';
 
 class CustomBarLit extends LitElement {
   constructor() {
