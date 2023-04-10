@@ -1,30 +1,30 @@
-import {css, html, LitElement} from "https://unpkg.com/lit?module";
+import {css, html, LitElement} from "https://unpkg.com/lit@2.7.1/index@0.0.1.js?module";
 import { classMap } from "https://cdn.jsdelivr.net/npm/lit-html@2.6.1/directives/class-map.js";
 const data = [
   {
     name: "Ranking PXI – Praxis Xperience Index",
     text: "Lideramos el sector clínicas, donde nos destacamos entre 6 instituciones de Santiago.",
-    image: "https://d51h1y0hva8v.cloudfront.net/images/default-source/library_logotipos/png/fxi-gray.png?sfvrsn=8baf9a03_2"
+    image: "https://d51h1y0hva8v.cloudfront.net/images/default-source/home/premios/pxi.png?sfvrsn=2f8477a_2"
   },
   {
     name: "Premio Nacional de Satisfacción de Clientes",
     text: "Obtuvimos distinción máxima y el primer lugar en el sector clínicas.",
-    image: "https://d51h1y0hva8v.cloudfront.net/images/default-source/library_logotipos/png/procalidad-gray.png?sfvrsn=c758b7e0_2"
+    image: "https://d51h1y0hva8v.cloudfront.net/images/default-source/home/premios/procalidad.png?sfvrsn=6a6328d8_2"
   },
   {
     name: "Premio Lealtad del Consumidor Sector Clínicas",
     text: "Máximo reconocimiento entre empresas con altos niveles de lealtad y buenas experiencias de clientes.",
-    image: "https://d51h1y0hva8v.cloudfront.net/images/default-source/library_logotipos/png/lealtad-gray.png?sfvrsn=2a8dda3_2"
+    image: "https://d51h1y0hva8v.cloudfront.net/images/default-source/home/premios/lealtad.png?sfvrsn=8d40e7c2_2"
   },
   {
     name: "Acreditación Joint Commission International",
     text: "Promovemos una mejora continua de la seguridad y calidad en la prevención y cuidado de la salud.",
-    image: "https://d51h1y0hva8v.cloudfront.net/images/default-source/library_logotipos/png/acreditation-gray.png?sfvrsn=71953872_2"
+    image: "https://d51h1y0hva8v.cloudfront.net/images/default-source/home/premios/enterprise.png?sfvrsn=3561b685_2"
   },
   {
     name: "Acreditación de Prestadores Institucionales de salud",
     text: "Cumplimos con un conjunto de estándares de calidad fijados y normados por el Ministerio de Salud.",
-    image: "https://d51h1y0hva8v.cloudfront.net/images/default-source/library_logotipos/png/acreditado-gray.png?sfvrsn=daa71bb0_2"
+    image: "https://d51h1y0hva8v.cloudfront.net/images/default-source/home/premios/salud.png?sfvrsn=a54e449f_2"
   }
 ]
 const stylesAwards = css`
@@ -77,10 +77,17 @@ const stylesAwards = css`
     border-radius: 100px;
     color: #5143D5;
     margin-top: 32px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
   @media (max-width: 768px) {
     .list {
       width: calc(100% - 32px);
+    }
+    button {
+      height: 40px;
     }
   }
 `
@@ -101,18 +108,12 @@ class CasAwards extends LitElement {
     };
   }
 
-  handleAllCards(status) {
-    this.openAll = status
-    const all = this.shadowRoot.querySelectorAll("cas-awards-card")
-    all.forEach(art => {
-      art.open = status
-    })
-    this.requestUpdate()
+  handleClick() {
+    const url = 'https://www.clinicaalemana.cl/nuestra-clinica/premios-y-reconocimientos'
+    window.open(url, '_blank');
   }
 
   render() {
-    const newStatus = ()=> this.openAll ? this.handleAllCards(false) : this.handleAllCards(true)
-    const textButton = this.openAll ? "Ocultar todos" : "Ver todos"
     const renderList = (data) => html`
       <div class="list">
         ${data.map(item => {
@@ -126,8 +127,8 @@ class CasAwards extends LitElement {
         <div class="inner-wrapped">
           <cas-text variant="display1" mobileVariant="m-headline1">${this.name}</cas-text>
           ${renderList(data)}
-          <button @click="${newStatus}">
-            <cas-text variant="caption1">${textButton}</cas-text>
+          <button @click="${this.handleClick}">
+            <cas-text variant="caption1">Ver todos</cas-text>
           </button>
         </div>
         
@@ -151,6 +152,7 @@ const stylesAwardsCard = css`
     position: relative;
     aspect-ratio: 2 / 1;
     height: 90px;
+    filter: saturate(0);
   }
   img {
     width: 100%;
@@ -170,6 +172,9 @@ const stylesAwardsCard = css`
     justify-content: center;
     cursor: pointer;
     transition: .2s ease;
+  }
+  .open .image {
+    filter: saturate(1);
   }
   .open .action {
     transform: rotate(180deg);
