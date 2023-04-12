@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'https://unpkg.com/lit@2.7.1/index@0.0.2.js?module';
+import { LitElement, html, css } from 'https://unpkg.com/lit?module';
 
 class MyHeader extends LitElement {
   static get styles() {

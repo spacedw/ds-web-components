@@ -1,6 +1,6 @@
 const cawd = document.createElement("script");
 cawd.src =
-  "https://cdn.jsdelivr.net/gh/spacexdw/ds-web-components@main/components/Awards/index%400.0.1.js";
+  "https://cdn.jsdelivr.net/gh/spacexdw/ds-web-components@main/components/Awards/index%400.0.2.js";
 cawd.type = "module";
 document.body.appendChild(cawd);
 
