@@ -87,7 +87,11 @@ const stylesPreventiva = css`
   }
   @media (max-width: 768px) {
     .content {
+      display: flex;
       overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
     }
   }
 `
@@ -99,6 +103,8 @@ class CasPreventiva extends LitElement {
     this.name = "title";
     this.text = "text";
     this.current = 1;
+    this.disabledLeft = true;
+    this.disabledRight = false;
   }
 
   static get properties() {
@@ -118,6 +124,31 @@ class CasPreventiva extends LitElement {
       window.location.href = data[id - 1].url
     }, 500)
   }
+  
+  firstUpdated() {
+    const action = this.shadowRoot.querySelector('cas-actions-nav');
+    action.addEventListener('clickLeft', () => {
+      this.handleNav({direction: 'left'})
+    })
+    action.addEventListener('clickRight', () => {
+      this.handleNav({direction: 'right'})
+    })
+  }
+  
+  handleNav({direction}) {
+    const content = this.shadowRoot.querySelector('.content')
+    content.scrollLeft += direction === 'left' ? -content.offsetWidth : content.offsetWidth
+    if(direction === 'left') {
+      this.disabledLeft = true
+      this.disabledRight = false
+    } else{
+  this.disabledRight = true
+  this.disabledLeft = false
+    }
+    this.requestUpdate()
+  }
+  
+  
 
   render() {
     const render_cards = html`
@@ -143,6 +174,7 @@ class CasPreventiva extends LitElement {
             <cas-text variant="headline5" mobileVariant="m-body1">${this.text}</cas-text>
           </div>
           ${render_cards}
+          <cas-actions-nav disabledLeft="${this.disabledLeft}" disabledRight="${this.disabledRight}"></cas-actions-nav>
         </div>
       </section>
     `;
@@ -221,6 +253,7 @@ const stylesPreventivaCard = css`
   @media (max-width: 768px) {
     article {
       min-width: 216px;
+      scroll-snap-align: center;
     }
   }
 `
