@@ -128,24 +128,37 @@ class CasPreventiva extends LitElement {
   firstUpdated() {
     const action = this.shadowRoot.querySelector('cas-actions-nav');
     action.addEventListener('clickLeft', () => {
-      this.handleNav({direction: 'left'})
+      this.handleNav({direction: 'prev'})
     })
     action.addEventListener('clickRight', () => {
-      this.handleNav({direction: 'right'})
+      this.handleNav({direction: 'next'})
     })
   }
-  
+
   handleNav({direction}) {
-    const content = this.shadowRoot.querySelector('.content')
-    content.scrollLeft += direction === 'left' ? -content.offsetWidth : content.offsetWidth
-    if(direction === 'left') {
-      this.disabledLeft = true
-      this.disabledRight = false
-    } else{
-  this.disabledRight = true
-  this.disabledLeft = false
+    const list = this.shadowRoot.querySelector(".content");
+    const move = 216;
+    const scroll = list.scrollLeft;
+    const maxScroll = list.scrollWidth - list.clientWidth;
+
+    if (direction === "next") {
+      list.scrollLeft = scroll + move < maxScroll ? scroll + move : maxScroll;
+      this.disableButton({direction, scroll, maxScroll, move});
     }
-    this.requestUpdate()
+    if (direction === "prev") {
+      list.scrollLeft = scroll - move > 0 ? scroll - move : 0;
+      this.disableButton({direction, scroll, maxScroll, move});
+    }
+  };
+
+  disableButton({direction, scroll, maxScroll, move}) {
+    const isNext = direction === "prev" ? true : scroll + move < maxScroll;
+    const isPrev = direction === "prev" ? scroll - move > 0 : true;
+    if (isNext) this.disabledRight = false;
+    if (isPrev) this.disabledLeft = false;
+    if (!isNext) this.disabledRight = true;
+    if (!isPrev) this.disabledLeft = true;
+    this.requestUpdate();
   }
   
   

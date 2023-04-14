@@ -30,16 +30,19 @@ const data = [
 const stylesAwards = css`
   :host {
     display: block;
+    overflow: hidden;
   }
   section {
-    
+    position: relative;
   }
   .inner-wrapped {
+    position: relative;
     max-width: 1140px;
     margin: 90px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0 32px;
   }
   .list {
     width: 100%;
@@ -49,8 +52,8 @@ const stylesAwards = css`
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
-    padding: 10px;
     margin-top: 40px;
+    padding: 10px;
   }
   .list::-webkit-scrollbar {
     width: 0;
@@ -70,24 +73,17 @@ const stylesAwards = css`
   .list::-webkit-scrollbar-thumb:hover {
     background-color: #5143D5;
   }
-  button {
-    background: #FFFFFF;
-    padding: 14px 24px;
-    border: 1px solid #DCD9F7;
-    border-radius: 100px;
-    color: #5143D5;
-    margin-top: 32px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  .action {
+    margin-top: 24px;
   }
   @media (max-width: 768px) {
-    .list {
-      width: calc(100% - 32px);
+    .inner-wrapped {
+      align-items: initial;
+      margin: 90px 0;
+      padding: 0 16px;
     }
-    button {
-      height: 40px;
+    .list {
+      padding: 10px 16px;
     }
   }
 `
@@ -98,7 +94,8 @@ class CasAwards extends LitElement {
     super();
     this.name = "Awards";
     this.data = [];
-    this.openAll = false
+    this.disabledLeft = true;
+    this.disabledRight = false;
   }
 
   static get properties() {
@@ -108,9 +105,40 @@ class CasAwards extends LitElement {
     };
   }
 
-  handleClick() {
-    const url = 'https://www.clinicaalemana.cl/nuestra-clinica/premios-y-reconocimientos'
-    window.open(url, '_blank');
+  firstUpdated() {
+    const action = this.shadowRoot.querySelector('cas-actions-nav');
+    action.addEventListener('clickLeft', () => {
+      this.handleNav({direction: 'prev'})
+    })
+    action.addEventListener('clickRight', () => {
+      this.handleNav({direction: 'next'})
+    })
+  }
+
+  handleNav({direction}) {
+    const list = this.shadowRoot.querySelector(".list");
+    const move = 180;
+    const scroll = list.scrollLeft;
+    const maxScroll = list.scrollWidth - list.clientWidth;
+
+    if (direction === "next") {
+      list.scrollLeft = scroll + move < maxScroll ? scroll + move : maxScroll;
+      this.disableButton({direction, scroll, maxScroll, move});
+    }
+    if (direction === "prev") {
+      list.scrollLeft = scroll - move > 0 ? scroll - move : 0;
+      this.disableButton({direction, scroll, maxScroll, move});
+    }
+  };
+
+  disableButton({direction, scroll, maxScroll, move}) {
+    const isNext = direction === "prev" ? true : scroll + move < maxScroll;
+    const isPrev = direction === "prev" ? scroll - move > 0 : true;
+    if (isNext) this.disabledRight = false;
+    if (isPrev) this.disabledLeft = false;
+    if (!isNext) this.disabledRight = true;
+    if (!isPrev) this.disabledLeft = true;
+    this.requestUpdate();
   }
 
   render() {
@@ -127,9 +155,9 @@ class CasAwards extends LitElement {
         <div class="inner-wrapped">
           <cas-text variant="display1" mobileVariant="m-headline1">${this.name}</cas-text>
           ${renderList(data)}
-          <button @click="${this.handleClick}">
-            <cas-text variant="caption1">Ver todos</cas-text>
-          </button>
+          <div class="action">
+            <cas-actions-nav disabledLeft="${this.disabledLeft}" disabledRight="${this.disabledRight}" urlAction="https://www.clinicaalemana.cl/nuestra-clinica/premios-y-reconocimientos"></cas-actions-nav>
+          </div>
         </div>
         
       </section>
@@ -147,6 +175,7 @@ const stylesAwardsCard = css`
     gap: 24px;
     max-width: 174px;
     flex: 1;
+    scroll-snap-align: center;
   }
   .image {
     position: relative;
