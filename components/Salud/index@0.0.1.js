@@ -1,69 +1,12 @@
 import { LitElement, html, css } from "https://unpkg.com/lit?module";
 import { unsafeHTML } from "https://cdn.jsdelivr.net/npm/lit-html@2.6.1/directives/unsafe-html.js";
-const defaultNews = [
-  {
-      "title": "Conoce los distintos tipos de alopecia",
-      "summary": "La caída del pelo puede darse por distintas causas. Conoce las distintas variantes de esta patología.",
-      "publicationDate": "27/02/2023",
-      "navigateUrl": "https://www.clinicaalemana.cl/new-home/2023/conoce-los-distintos-tipos-de-alopecia",
-      "readingTime": "1",
-      "photo": "https://d51h1y0hva8v.cloudfront.net/images/default-source/art%C3%ADculos/clinica-alemana-noticia-alopecia.jpg?sfvrsn=56dc6a76_1",
-      "categories": [
-          {
-              "title": "Dermatología",
-              "url": "https://www.clinicaalemana.cl/articulos/todas-las-noticias/dermatolog&#237;a"
-          }
-      ]
-  },
-  {
-      "title": "Alonso: su primer accidente en el hogar",
-      "summary": "En noviembre del año pasado Alonso sufrió un accidente en su hogar que podría haber sido muy grave.  Conoce su historia y ten en cuenta qué cosas debes prevenir en tu día a día. \n\n﻿",
-      "publicationDate": "24/02/2023",
-      "navigateUrl": "https://www.clinicaalemana.cl/new-home/2023/alonso-su-primer-accidente-en-el-hogar",
-      "readingTime": "2",
-      "photo": "https://d51h1y0hva8v.cloudfront.net/images/default-source/art%C3%ADculos/babymom.jpg?sfvrsn=40077c35_1",
-      "categories": [
-          {
-              "title": "Testimonio",
-              "url": "https://www.clinicaalemana.cl/articulos/todas-las-noticias/testimonio"
-          }
-      ]
-  },
-  {
-      "title": "Norovirus: ¿qué es y cómo prevenirlo?",
-      "summary": "Actualmente, este virus es la causa más común de brotes de gastroenteritis. Se da, en su mayor parte en comunidades cerradas como escuelas, cruceros, asilos.",
-      "publicationDate": "22/02/2023",
-      "navigateUrl": "https://www.clinicaalemana.cl/new-home/2023/norovirus-que-es-y-como-prevenirlo",
-      "readingTime": "1",
-      "photo": "https://d51h1y0hva8v.cloudfront.net/images/default-source/art%C3%ADculos/gettyimages-1225157999-(1)-(1).jpg?sfvrsn=46eeb519_1",
-      "categories": [
-          {
-              "title": "Síntomas y enfermedades",
-              "url": "https://www.clinicaalemana.cl/articulos/todas-las-noticias/s&#237;ntomas-y-enfermedades"
-          }
-      ]
-  },
-  {
-      "title": "Tenis: ¿cuáles son las lesiones más frecuentes?",
-      "summary": "En el marco del próximo ranking ATP de Santiago 2023, los especialistas de Alemana Sport te explican cuáles son las lesiones más comunes y cómo prevenirlas.",
-      "publicationDate": "20/02/2023",
-      "navigateUrl": "https://www.clinicaalemana.cl/new-home/2023/tenis-cuales-son-las-lesiones-mas-frecuentes",
-      "readingTime": "1",
-      "photo": "https://d51h1y0hva8v.cloudfront.net/images/default-source/art%C3%ADculos/articulo_tenis640854ed197947bb86ac8a56d9dc2f65.jpg?sfvrsn=f7711333_0",
-      "categories": [
-          {
-              "title": "Actividad física y deportes",
-              "url": "https://www.clinicaalemana.cl/articulos/todas-las-noticias/actividad-f&#237;sica-y-deportes"
-          }
-      ]
-  },
-]
-const news = window.news || defaultNews;
+const news = window.news || [];
 const styleCasNews = css`
   :host {
     display: block;
   }
   .cas-news {
+    position: relative;
     display: flex;
     justify-content: center;
     width: 100%;
@@ -71,7 +14,7 @@ const styleCasNews = css`
   }
   .inner-wrapped {
     max-width: 1264px;
-    padding: 90px 0;
+    padding: 90px 32px;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -87,15 +30,7 @@ const styleCasNews = css`
   }
   .filters {
     display: flex;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
     gap: 12px;
-    width: calc(100vw - 64px);
-    max-width: 1264px;
-    white-space: nowrap;
-    padding: 0 32px;
   }
   .tag {
     background: #ffffff;
@@ -104,7 +39,6 @@ const styleCasNews = css`
     padding: 8px 12px;
     color: #5143d5;
     cursor: pointer;
-    scroll-snap-align: left;
   }
   .tag.active {
     background: #857be2;
@@ -114,41 +48,14 @@ const styleCasNews = css`
     display: none;
   }
   .list {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    max-width: 1264px;
-    padding: 0 32px 32px;
   }
-  .bottom {
-    display: flex;
-    justify-content: end;
-    gap: 12px;
-    align-items: center;
-    padding: 0 32px;
+  .actions {
+    display: none
   }
-  .bottom button {
-    background: #4DBFB8;
-    border-radius: 50%;
-    border: none;
-    height: 32px;
-    width: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    --eloisa-ds-icon-color: currentColor;
-    color: #ffffff;
-  }
-  button:disabled {
-    background: #E9EBEC;
-    color: #909AA1;
-  }
-  .bottom.hidden {
-    display: none;
-  }
+  
   @media (max-width: 1024px) {
     .cas-news {
       border-bottom: 1px solid #f2f2f2;
@@ -187,15 +94,15 @@ const styleCasNews = css`
       width: calc(100vw - 32px);
       padding: 0 16px 16px;
     }
-    .bottom button {
-      height: 24px;
-      width: 24px;
-    }
   }
   @media (max-width: 768px) {
     .filters {
       margin-top: 16px;
       margin-bottom: 28px;
+    }
+    .actions {
+      display: block;
+      padding: 0 16px;
     }
   }
 `;
@@ -217,6 +124,8 @@ class CasSalud extends LitElement {
     this.data = [];
     this.selected = {};
     this.list = [];
+    this.disabledLeft = true;
+    this.disabledRight = false;
   }
 
   connectedCallback() {
@@ -233,7 +142,6 @@ class CasSalud extends LitElement {
         url: navigateUrl,
       };
     });
-    console.log({modifiedKeys})
     this.data = modifiedKeys;
 
     const allFilters = [];
@@ -248,6 +156,43 @@ class CasSalud extends LitElement {
     allFilters.unshift({ title: "Últimas agregadas" });
     this.filters = allFilters;
     this.handleFilterClick(allFilters[0]);
+  }
+
+  firstUpdated() {
+    const actions = this.shadowRoot.querySelector("cas-actions-nav");
+    actions.addEventListener("clickLeft", () => {
+      this.handleNavigation({ direction: "prev" });
+    })
+    actions.addEventListener("clickRight", () => {
+      this.handleNavigation({ direction: "next" });
+    })
+  }
+
+  handleNavigation({direction}) {
+    const isMobile = window.innerWidth < 768;
+    const list = this.shadowRoot.querySelector(".list");
+    const move = isMobile ? 260 : 400;
+    const scroll = list.scrollLeft;
+    const maxScroll = list.scrollWidth - list.clientWidth;
+    
+    if (direction === "next") {
+      list.scrollLeft = scroll + move < maxScroll ? scroll + move : maxScroll;
+      this.disableButton({direction, scroll, maxScroll, move});
+    }
+    if (direction === "prev") {
+      list.scrollLeft = scroll - move > 0 ? scroll - move : 0;
+      this.disableButton({direction, scroll, maxScroll, move});
+    }
+  };
+
+  disableButton({direction, scroll, maxScroll, move}) {
+    const isNext = direction === "prev" ? true : scroll + move < maxScroll;
+    const isPrev = direction === "prev" ? scroll - move > 0 : true;
+    if (isNext) this.disabledRight = false;
+    if (isPrev) this.disabledLeft = false;
+    if (!isNext) this.disabledRight = true;
+    if (!isPrev) this.disabledLeft = true;
+    this.requestUpdate();
   }
 
   handleFilterClick(filter) {
@@ -268,43 +213,7 @@ class CasSalud extends LitElement {
   render() {
     const { name, text, filters, list, selected } = this;
     const isMobile = window.innerWidth < 768;
-    const handleNavigation = (direction = "next") => {
-      const list = this.shadowRoot.querySelector(".list");
-      const actions = this.shadowRoot.querySelectorAll(".bottom button");
-      console.log(actions);
-      const move = isMobile ? 260 : 400;
-      const scroll = list.scrollLeft;
-      const maxScroll = list.scrollWidth - list.clientWidth;
-
-      function disableButton() {
-        const next = actions[1];
-        const prev = actions[0];
-        const isNext = direction === "prev" ? true : scroll + move < maxScroll;
-        const isPrev = direction === "prev" ? scroll - move > 0 : true;
-        console.log({ isNext, isPrev })
-        if (isNext) {
-          next.removeAttribute("disabled");
-        }
-        if (isPrev) {
-          prev.removeAttribute("disabled");
-        }
-        if (!isNext) {
-          next.setAttribute("disabled", true);
-        }
-        if (!isPrev) {
-          prev.setAttribute("disabled", true);
-        }
-      }
-      
-      if (direction === "next") {
-        list.scrollLeft = scroll + move < maxScroll ? scroll + move : maxScroll;
-        disableButton();
-      }
-      if (direction === "prev") {
-        list.scrollLeft = scroll - move > 0 ? scroll - move : 0;
-        disableButton();
-      }
-    };
+   
     const renderFilters = filters.map(
       (filter) => html`<button
         class="tag ${filter.title === this.selected.title ? "active" : ""}"
@@ -315,7 +224,7 @@ class CasSalud extends LitElement {
       </button> `
     );
     const renderList = list
-      .slice(0, 9)
+      .slice(0, 3)
       .map(
         (item) =>
           html`<cas-salud-card
@@ -328,7 +237,7 @@ class CasSalud extends LitElement {
           ></cas-salud-card>`
       );
 
-      const isScrollable = isMobile ? list.length > 1 : list.length > 3;
+    const isScrollable = isMobile ? list.length > 1 : list.length > 3;
     return html`
       <section class="cas-news">
         <div class="inner-wrapped">
@@ -344,13 +253,8 @@ class CasSalud extends LitElement {
             </a>
           </div>
           <div class="list">${renderList}</div>
-          <div class="bottom ${isScrollable ?'' : 'hidden'}">
-            <button disabled @click="${() => handleNavigation("prev")}">
-              <cas-icon name="flat-arrowLeft"></cas-icon>
-            </button>
-            <button @click="${() => handleNavigation("next")}">
-              <cas-icon name="flat-arrowRight"></cas-icon>
-            </button>
+          <div class="actions">
+            <cas-actions-nav urlAction="${selected?.url}" disabledLeft="${this.disabledLeft}" disabledRight="${this.disabledRight}"></cas-actions-nav>
           </div>
         </div>
       </section>
@@ -365,16 +269,13 @@ const styleNewsCard = css`
   .news-card {
     flex: 1;
     background: #ffffff;
-    box-shadow: 0px 30px 44px rgba(200, 200, 200, 0.25);
+    box-shadow: 0 30px 44px rgba(200, 200, 200, 0.25);
     border-radius: 20px;
     padding: 24px 24px 48px;
     display: flex;
     flex-direction: column;
     gap: 20px;
     text-decoration: none;
-    scroll-snap-align: center;
-    min-width: 340px;
-    max-width: 358px;
   }
   .image {
     width: 100%;
