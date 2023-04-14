@@ -1,65 +1,74 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Components Alemana</title>
-    <link
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Components Alemana</title>
+  <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800&display=swap"
-    />
-    <script src="https://d51h1y0hva8v.cloudfront.net/docs/default-source/idigital/eloisa-ds/cas-text-umd.js?sfvrsn=c6997f63_2" type="text/javascript"></script>
-    <script src="https://eloisa-cdn-dev.clinicaalemana.cl/@eloisa-ds/cas-new-header/latest/cas-new-header.umd.js" type="text/javascript"></script>
-    <script
-      src="https://d51h1y0hva8v.cloudfront.net/docs/default-source/idigital/eloisa-ds/cas-icon-umd.js?sfvrsn=c0363166_2"
-      type="text/javascript"
-    ></script>
-    <style>
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-      .carrusel {
-        display: flex;
-        align-items: center;
-        overflow-x: scroll;
-        overflow-y: hidden;
-        -webkit-overflow-scrolling: touch;
-        scroll-snap-type: x mandatory;
-        width: calc(300px * 3 + 16px * 2);
-      }
+  />
+  <script src="https://eloisa-cdn-dev.clinicaalemana.cl/@eloisa-ds/cas-new-header/latest/cas-new-header.umd.js"
+          type="text/javascript"></script>
+  <script src="https://eloisa-cdn-dev.clinicaalemana.cl/@eloisa-ds/cas-header/latest/cas-header.umd.js"
+          type="text/javascript"></script>
+  <script src="https://eloisa-cdn-dev.clinicaalemana.cl/@eloisa-ds/cas-footer/latest/cas-footer.umd.js"
+          type="text/javascript"></script>
+  <script src="https://eloisa-cdn-dev.clinicaalemana.cl/@eloisa-ds/cas-button/latest/cas-button.umd.js"
+          type="text/javascript"></script>
+  <script src="https://eloisa-cdn-dev.clinicaalemana.cl/@eloisa-ds/cas-icon/latest/cas-icon.umd.js"
+          type="text/javascript"></script>
+  <script src="https://eloisa-cdn-dev.clinicaalemana.cl/@eloisa-ds/cas-text/latest/cas-text.umd.js"
+          type="text/javascript"></script>
+  <script src="https://eloisa-cdn-dev.clinicaalemana.cl/@eloisa-ds/cas-modal/latest/cas-modal.umd.js"
+          type="text/javascript"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-      .tarjeta-container {
-        display: flex;
-        scroll-snap-align: start;
-      }
+    .carrusel {
+      display: flex;
+      align-items: center;
+      overflow-x: scroll;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      width: calc(300px * 3 + 16px * 2);
+    }
 
-      .tarjeta {
-        min-width: 300px;
-        margin: 0 16px;
-        padding: 16px;
-        background-color: #f1f1f1;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        scroll-snap-align: start;
-      }
+    .tarjeta-container {
+      display: flex;
+      scroll-snap-align: start;
+    }
 
-      .tarjeta h3 {
-        margin: 0;
-        font-size: 1.5rem;
-      }
+    .tarjeta {
+      min-width: 300px;
+      margin: 0 16px;
+      padding: 16px;
+      background-color: #f1f1f1;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      scroll-snap-align: start;
+    }
 
-      .tarjeta p {
-        font-size: 1rem;
-      }
+    .tarjeta h3 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
 
-    </style>
-  </head>
-  <body>
-    <my-header></my-header>
+    .tarjeta p {
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+<my-header></my-header>
+
 <!--  <cas-new-header></cas-new-header>-->
-    <cas-text variant="display1">components</cas-text>
+<cas-text variant="display1">components</cas-text>
 <!--    <cas-banner-cta-->
 <!--      tag="¡Vive una nueva experiencia!"-->
 <!--      title="Mi página de salud <br> ahora es "-->
@@ -79,99 +88,39 @@
 <!--      text="Todo lo que debes saber para cuidar tu salud y la de tu familia."-->
 <!--    >-->
 <!--    </cas-news>-->
-    <cas-salud name="Todo sobre salud" text="Lo que necesitas saber para cuidar de ti y de tu familia."></cas-salud>
-    <cas-awards name="Premios y acreditaciones"></cas-awards>
-    <cas-preventiva
-        name="Prevención y bienestar"
-        text="Porque sentirse bien es clave para ser feliz, queremos ayudarte a alcanzar tu máximo potencial de salud."
-    ></cas-preventiva>
-    <div class="carrusel" id="carrusel">
-      <button class="arrow left" onclick="desplazar(-1)">&#10094;</button>
-      <div class="tarjeta-container" id="tarjetaContainer">
-        <div class="tarjeta">
-          <h3>Tarjeta 1</h3>
-          <p>Contenido de la tarjeta 1.</p>
-        </div>
-        <div class="tarjeta">
-          <h3>Tarjeta 2</h3>
-          <p>Contenido de la tarjeta 2.</p>
-        </div>
-        <div class="tarjeta">
-          <h3>Tarjeta 3</h3>
-          <p>Contenido de la tarjeta 3.</p>
-        </div>
-        <div class="tarjeta">
-          <h3>Tarjeta 1</h3>
-          <p>Contenido de la tarjeta 1.</p>
-        </div>
-        <div class="tarjeta">
-          <h3>Tarjeta 2</h3>
-          <p>Contenido de la tarjeta 2.</p>
-        </div>
-        <div class="tarjeta">
-          <h3>Tarjeta 3</h3>
-          <p>Contenido de la tarjeta 3.</p>
-        </div>
-        <div class="tarjeta">
-          <h3>Tarjeta 1</h3>
-          <p>Contenido de la tarjeta 1.</p>
-        </div>
-        <div class="tarjeta">
-          <h3>Tarjeta 2</h3>
-          <p>Contenido de la tarjeta 2.</p>
-        </div>
-        <div class="tarjeta">
-          <h3>Tarjeta 3</h3>
-          <p>Contenido de la tarjeta 3.</p>
-        </div>
-        <div class="tarjeta">
-          <h3>Tarjeta 1</h3>
-          <p>Contenido de la tarjeta 1.</p>
-        </div>
-        <div class="tarjeta">
-          <h3>Tarjeta 2</h3>
-          <p>Contenido de la tarjeta 2.</p>
-        </div>
-        <div class="tarjeta">
-          <h3>Tarjeta 3</h3>
-          <p>Contenido de la tarjeta 3.</p>
-        </div>
-      </div>
-      <button class="arrow right" onclick="desplazar(1)">&#10095;</button>
-    </div>
+<cas-salud name="Todo sobre salud" text="Lo que necesitas saber para cuidar de ti y de tu familia."></cas-salud>
+<cas-awards name="Premios y acreditaciones"></cas-awards>
+<cas-preventiva
+    name="Prevención y bienestar"
+    text="Porque sentirse bien es clave para ser feliz, queremos ayudarte a alcanzar tu máximo potencial de salud."
+></cas-preventiva>
+<cas-actions-nav id="testAction" urlAction="https://"></cas-actions-nav>
+<cas-actions-nav disabledLeft="true" disabledRight="false"></cas-actions-nav>
+<cas-actions-nav disabledLeft="false" disabledRight="true"></cas-actions-nav>
+
+
+
 <!--    <cas-actions-bar-->
 <!--        initialPosition="2"-->
 <!--        options='["Importancia de cuidarse","Aprende a como cuidarte","Acciones para cuidarte"]'-->
 <!--    ></cas-actions-bar>-->
-    <script>
-      let tarjetaContainer = document.getElementById("tarjetaContainer");
-      let desplazamiento = 0;
 
-      function desplazar(direccion) {
-        let tarjetaAncho = tarjetaContainer.children[0].offsetWidth;
-        let espacioEntreTarjetas = 32;
-        desplazamiento += (tarjetaAncho + espacioEntreTarjetas) * direccion;
-
-        // Limitar el desplazamiento
-        let maxDesplazamiento = -tarjetaContainer.scrollWidth + (tarjetaAncho + espacioEntreTarjetas) * 3;
-        desplazamiento = Math.min(Math.max(desplazamiento, maxDesplazamiento), 0);
-
-        tarjetaContainer.style.transform = `translateX(${desplazamiento}px)`;
-      }
-
-    </script>
-    <script type="module" src="./components/ActionsBar/index.js"></script>
-    <script type="module" src="components/Awards/index@0.0.2.js"></script>
-    <script type="module" src="./components/MyHeader/index.js"></script>
-    <script type="module" src="./components/Salud/index.js"></script>
-    <script type="module" src="components/Preventiva/index@0.0.4.js"></script>
-    <!-- <script>
-      const cda = document.createElement("script");
-      cda.src = "https://d51h1y0hva8v.cloudfront.net/docs/default-source/idigital/eloisa-ds/cas-desafio-alemana.js?sfvrsn=5d305645_2";
-      cda.type = "module";
-      document.body.appendChild(cda);
-    </script> -->
-  </body>
+<script type="module" src="./components/ActionsBar/index.js"></script>
+<script type="module" src="components/Awards/index@0.0.2.js"></script>
+<script type="module" src="./components/MyHeader/index.js"></script>
+<script type="module" src="./components/Salud/index.js"></script>
+<script type="module" src="./components/ActionsNav/index.js"></script>
+<script type="module" src="components/Preventiva/index@0.0.4.js"></script>
+<script>
+  const actionsNav = document.getElementById("testAction");
+  actionsNav.addEventListener("clickLeft", () => {
+    console.log("clickLeft");
+  });
+  actionsNav.addEventListener("clickRight", () => {
+    console.log("clickRight");
+  });
+</script>
+</body>
 </html>
 
 
